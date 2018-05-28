@@ -5,6 +5,8 @@ git clone https://github.com/phpjavac/flask-vue.git
 
 # install dependencies
 # windows
+cd flask-vue
+
 python -3 -m venv venv
 
 set FLASK_APP=flaskr
