@@ -21,14 +21,14 @@ export default {
   },
   methods: {
     login() {
-      this.$store.dispatch("login").then(() => {
-        if (this.$store.state.login.then.success) {
-          this.$Message.success(this.$store.state.login.then.data);
-        } else {
-          this.$Message.warning(this.$store.state.login.then.data);
-          this.$store.commit('login',null)
+      this.$store.dispatch("login").then(res => {
+        console.log(res)
+        if(res.data.success){
+          this.$Message.success('登陆成功')
+        }else{
+          this.$Message.error(res.data.data)
         }
-      })
+      });
     }
   }
 };
