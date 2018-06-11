@@ -22,9 +22,12 @@ var actions = {
   }
 }
 const mutations = {
+  postdata(state) {
+    state.formItem.workingHours = 0
+  },
   getdata(state, value) {
     value.forEach(element => {
-      state.formItem.workingHours +=element.fields.customfield_10101
+      state.formItem.workingHours += element.fields.customfield_10101
 
     });
   },

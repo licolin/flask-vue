@@ -7,6 +7,7 @@ div
         FormItem(label="选择人员")
             Select(v-model="$store.state.workingHours.formItem.select")
                 Option(value='sunfucong') 孙福聪
+                Option(value='guotonghao') 小郭
         FormItem
             Button(type="primary",@click='query',:loading="loading") 查询
         FormItem(label="工时统计:")
@@ -25,10 +26,9 @@ export default {
     },
     query() {
       this.loading = true;
-
+      this.$store.commit("postdata");
       this.$store.dispatch("workingday").then(res => {
         this.loading = false;
-        console.log(res);
       });
     }
   },

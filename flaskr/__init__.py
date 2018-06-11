@@ -3,6 +3,7 @@ import os
 from flask import Flask
 from . import db,api
 from flask_cors import *
+from flask import render_template
 
 def create_app(test_config=None):
     # create and configure the app
@@ -28,9 +29,9 @@ def create_app(test_config=None):
         pass
 
     # a simple page that says hello
-    @app.route('/hello')
+    @app.route('/')
     def hello():
-        return 'Hello, World!'
+        return render_template('index.html')
 
     db.init_app(app)
     app.register_blueprint(api.bp)
