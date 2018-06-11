@@ -22,11 +22,14 @@ export default {
   methods: {
     login() {
       this.$store.dispatch("login").then(res => {
-        console.log(res)
-        if(res.data.success){
-          this.$Message.success('登陆成功')
-        }else{
-          this.$Message.error(res.data.data)
+        console.log(res);
+        if (res.data.success) {
+          this.$Message.success("登陆成功");
+          this.$router.push({
+            path: "index"
+          });
+        } else {
+          this.$Message.error(res.data.data);
         }
       });
     }

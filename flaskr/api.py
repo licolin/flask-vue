@@ -1,5 +1,6 @@
 import functools
-
+import calendar
+import requests
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for,jsonify
 )
@@ -8,7 +9,23 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from flaskr.db import get_db
 
 bp = Blueprint('api', __name__, url_prefix='/api')
-
+#查询每月标准工作日
+@bp.route('/workingday',methods=('GET','POST'))
+def workingday():
+    code = request.json.get('code',None)
+    Startdate = request.json.get('Startdate',None)
+    enddate = request.json.get('enddate',None)
+    url = 'http://findsoft.com.cn:8888/login.jsp'
+    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36','Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8'}
+    getCookie = requests.get(url, headers=headers)
+    Cookie=getCookie.cookies
+    r = requests.post('http://findsoft.com.cn:8888/login.jsp?os_username=sunfucong&os_password=21yuanKU&os_cookie=true&os_destination=&user_role=&atl_token=&login=%E7%99%BB%E5%BD%95',headers=headers, cookies=Cookie,allow_redirects=False)
+    soo = r.text
+    wanmei = r.cookies
+    url = 'http://findsoft.com.cn:8888/rest/api/2/search?jql=status+in+(Resolved,+Closed)+AND+%E9%A6%96%E6%AC%A1%E8%A7%A3%E5%86%B3%E6%97%B6%E9%97%B4+%3E%3D+'+str(Startdate)+'+AND+%E9%A6%96%E6%AC%A1%E8%A7%A3%E5%86%B3%E6%97%B6%E9%97%B4+%3C%3D+'+str(enddate)+'+AND+%E5%BC%80%E5%8F%91%E8%80%85+in+('+str(code)+')&maxResults=500'
+    g = requests.get(url,headers=headers, cookies=wanmei)
+    pp = g.json()
+    return jsonify(pp)
 #注册接口
 @bp.route('/register', methods=('GET', 'POST'))
 def register():
@@ -33,9 +50,9 @@ def register():
             )
             db.commit()
             return '注册成功'
-
         flash(error)
-
+    else:
+        error = '不支持get请求'
     return error
 #登录接口
 @bp.route('/login', methods=('GET', 'POST'))
