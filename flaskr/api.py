@@ -15,17 +15,17 @@ def workingday():
     code = request.json.get('code',None)
     Startdate = request.json.get('Startdate',None)
     enddate = request.json.get('enddate',None)
+    state= request.json.get('state',None)
     url = 'http://findsoft.com.cn:8888/login.jsp'
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36','Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8'}
     getCookie = requests.get(url, headers=headers)
     Cookie=getCookie.cookies
     r = requests.post('http://findsoft.com.cn:8888/login.jsp?os_username=sunfucong&os_password=21yuanKU&os_cookie=true&os_destination=&user_role=&atl_token=&login=%E7%99%BB%E5%BD%95',headers=headers, cookies=Cookie,allow_redirects=False)
-    soo = r.text
     wanmei = r.cookies
-    url = 'http://findsoft.com.cn:8888/rest/api/2/search?jql=status+in+(Resolved,+Closed)+AND+%E9%A6%96%E6%AC%A1%E8%A7%A3%E5%86%B3%E6%97%B6%E9%97%B4+%3E%3D+'+str(Startdate)+'+AND+%E9%A6%96%E6%AC%A1%E8%A7%A3%E5%86%B3%E6%97%B6%E9%97%B4+%3C%3D+'+str(enddate)+'+AND+%E5%BC%80%E5%8F%91%E8%80%85+in+('+str(code)+')&maxResults=500'
+    url = 'http://findsoft.com.cn:8888/rest/api/2/search?jql=status+in+('+str(state)+')+AND+%E9%A6%96%E6%AC%A1%E8%A7%A3%E5%86%B3%E6%97%B6%E9%97%B4+%3E%3D+'+str(Startdate)+'+AND+%E9%A6%96%E6%AC%A1%E8%A7%A3%E5%86%B3%E6%97%B6%E9%97%B4+%3C%3D+'+str(enddate)+'+AND+%E5%BC%80%E5%8F%91%E8%80%85+in+('+str(code)+')&maxResults=500'
     g = requests.get(url,headers=headers, cookies=wanmei)
-    pp = g.json()
-    return jsonify(pp)
+    getreurn = g.json()
+    return jsonify(getreurn)
 #注册接口
 @bp.route('/register', methods=('GET', 'POST'))
 def register():

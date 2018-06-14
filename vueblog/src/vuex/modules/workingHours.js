@@ -6,7 +6,8 @@ var state = {
     Startdate: "",
     enddate: "",
     select: "",
-    workingHours: 0
+    workingHours: 0,
+    state:'Resolved, +Closed',
   }
 };
 

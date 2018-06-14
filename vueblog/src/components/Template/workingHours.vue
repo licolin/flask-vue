@@ -6,8 +6,13 @@ div
             DatePicker(type="daterange",placeholder="选择时间",v-model="$store.state.workingHours.formItem.date",style="width: 100%",value='yyyy-MM-dd',@on-change='chengedate')
         FormItem(label="选择人员")
             Select(v-model="$store.state.workingHours.formItem.select")
-                Option(value='sunfucong') 孙福聪
+                Option(value='sunfucong') 我
                 Option(value='guotonghao') 小郭
+        FormItem(label="任务状态")
+            Select(v-model="$store.state.workingHours.formItem.state")
+                Option(value='Closed') 关闭
+                Option(value='Resolved') 已解决
+                Option(value='Resolved, Closed') 已解决+关闭
         FormItem
             Button(type="primary",@click='query',:loading="loading") 查询
         FormItem(label="工时统计:")
@@ -37,8 +42,8 @@ export default {
 </script>
 <style lang="stylus" scoped>
 .Form {
-    width: 80%;
-    text-align: center;
-    margin: 20vh auto;
+  width: 80%;
+  text-align: center;
+  margin: 20vh auto;
 }
 </style>
